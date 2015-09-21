@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Estimating Male Body Fat Percentage with Shiny</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Estimating Male Body Fat Percentage with Shiny">
+  <meta name="author" content="Andrew Techmeier">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/codefont.css"></link>
+<link rel=stylesheet href="./assets/css/outfont.css"></link>
+<link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Estimating Male Body Fat Percentage with Shiny</h1>
+    <h2></h2>
+    <p>Andrew Techmeier<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Why Estimate Body Fat?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol>
+<li>It is important to monitor body fat to maintain and adjust ones health and lifestyle. </li>
+<li>Body fat is not an easily measured value.  It typically requires special measurement devices.</li>
+<li>Using easily-measured data from the &#39;UsingR&#39; &#39;fat&#39; dataset, we can run a multivariate linear model to estimate body fat.<br></li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>How It&#39;s Done</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>First fit a multivariate linear model to predict body fat percentage using the following predictors:</p>
+
+<ul>
+<li>Age</li>
+<li>BMI (using height and weight)</li>
+<li>Neck, Chest, Abdomen, Hip, Thigh, Knee, Ankle, Bicep, Forearm, Wrist Circumference</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class codefont outfont" id="id" style="background:;">
+  <hgroup>
+    <h2>The Model</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(UsingR)
+data(fat)
+simpleRegression &lt;- lm(body.fat ~ age + BMI + neck + chest +  abdomen + hip + 
+                               thigh + knee + ankle + bicep + forearm + wrist, 
+                       data = fat)
+summary(simpleRegression)
+</code></pre>
+
+<pre><code>## 
+## Call:
+## lm(formula = body.fat ~ age + BMI + neck + chest + abdomen + 
+##     hip + thigh + knee + ankle + bicep + forearm + wrist, data = fat)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -10.301  -2.583  -0.178   2.892  10.123 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   5.6955     7.1136    0.80  0.42413    
+## age           0.0765     0.0287    2.67  0.00819 ** 
+## BMI           0.2163     0.2373    0.91  0.36283    
+## neck         -0.6002     0.2068   -2.90  0.00404 ** 
+## chest        -0.1093     0.0905   -1.21  0.22840    
+## abdomen       0.8370     0.0835   10.02  &lt; 2e-16 ***
+## hip          -0.3372     0.1171   -2.88  0.00433 ** 
+## thigh         0.2341     0.1356    1.73  0.08570 .  
+## knee         -0.1293     0.2216   -0.58  0.56001    
+## ankle         0.0718     0.2046    0.35  0.72601    
+## bicep         0.0839     0.1579    0.53  0.59549    
+## forearm       0.4280     0.1858    2.30  0.02211 *  
+## wrist        -1.7114     0.4865   -3.52  0.00052 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4 on 239 degrees of freedom
+## Multiple R-squared:  0.744,  Adjusted R-squared:  0.731 
+## F-statistic:   58 on 12 and 239 DF,  p-value: &lt;2e-16
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>The App</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The app looks like the following (<a href="https://tekquon.shinyapps.io/Data_Products_Shiny">link</a>):</p>
+
+<p><img src="screenshot.png" alt="Shiny App"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Why Estimate Body Fat?'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='How It&#39;s Done'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='The Model'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='The App'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

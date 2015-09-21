@@ -1,0 +1,46 @@
+---
+title       : Estimating Male Body Fat Percentage with Shiny
+subtitle    : 
+author      : Andrew Techmeier
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Why Estimate Body Fat?
+
+0. It is important to monitor body fat to maintain and adjust ones health and lifestyle. 
+1. Body fat is not an easily measured value.  It typically requires special measurement devices.
+2. Using easily-measured data from the 'UsingR' 'fat' dataset, we can run a multivariate linear model to estimate body fat.  
+
+--- .class #id 
+
+## How It's Done
+
+First fit a multivariate linear model to predict body fat percentage using the following predictors:
+* Age
+* BMI (using height and weight)
+* Neck, Chest, Abdomen, Hip, Thigh, Knee, Ankle, Bicep, Forearm, Wrist Circumference
+
+--- .class #id .codefont .outfont
+
+## The Model
+```{r, cache=FALSE}
+library(UsingR)
+data(fat)
+simpleRegression <- lm(body.fat ~ age + BMI + neck + chest +  abdomen + hip + 
+                               thigh + knee + ankle + bicep + forearm + wrist, 
+                       data = fat)
+summary(simpleRegression)
+```
+
+--- .class #id
+
+## The App
+The app looks like the following ([link](https://tekquon.shinyapps.io/Data_Products_Shiny)):
+
+![Shiny App](screenshot.png)
